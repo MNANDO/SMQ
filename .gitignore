@@ -1,0 +1,15 @@
+# Ignore Node.js modules
+**/node_modules
+
+# Ignore package lock files
+**/package-lock.json
+
+# Ignore compiled TypeScript files
+**/*.js
+**/*.js.map
+
+# Ignore any build artifacts or temporary files
+*.log
+*.swp
+.DS_Store
+
