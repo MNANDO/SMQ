@@ -10,4 +10,4 @@
 > ``` docker-compose up --build ```
 
 ## Viewing the application
-> The application will be hosted at localhost:3050
+> The application will be hosted at localhost:3000
