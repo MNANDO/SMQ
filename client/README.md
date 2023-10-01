@@ -1,4 +1,4 @@
-# React Front-End With MUI
+# Client React Front-End
 
 ## Project File Structure
 ```
