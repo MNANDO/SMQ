@@ -1,6 +1,7 @@
 # React Front-End With MUI
 
 ## Project File Structure
+```
 ├── package-lock.json
 ├── package.json
 ├── public
@@ -25,5 +26,6 @@
 │   ├── setupTests.ts
 │   └── theme.ts
 └── tsconfig.json
+```
 
 
