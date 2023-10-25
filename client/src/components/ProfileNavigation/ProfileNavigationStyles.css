@@ -1,0 +1,59 @@
+/* ProfileNavigationStyles.css */
+
+.profile-navigation {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 15px;
+    color: #fff;
+}
+
+.profile-navigation:hover {
+    cursor: pointer; /* Change cursor on hover */
+}
+
+.user-profile-image {
+    width: 64px;
+    height: 64px;
+    margin-right: 10px;
+}
+
+.sub-menu {
+    position: absolute; /* Absolute positioning for the submenu */
+    top: 100%; /* Position the submenu below the content inside .profile-navigation */
+    right: 10px; /* Align the submenu with the left edge of .profile-navigation */
+    text-decoration: none;
+    background: #333;
+    padding: 5px;
+    color: #fff;
+    border-radius: 5px;
+}
+.sub-menu a {
+    text-decoration: none; /* Remove underlines from links */
+    color: inherit; /* Inherit text color from parent */
+    cursor: pointer; /* Set cursor to pointer on hover */
+}
+
+.sub-menu ul {
+    padding: 0px 15px 0px 15px;
+}
+
+.sub-menu li {
+    list-style-type: none;
+    margin-bottom: 20px; /* Add margin at the bottom of each li element */
+}
+
+.sub-menu li:hover {
+    color: grey;
+}
+
+.user-display-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.dropdown-icon {
+    margin-left: 10px;
+}

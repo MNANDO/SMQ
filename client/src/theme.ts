@@ -45,7 +45,7 @@ const theme = createTheme({
       disabled: 'rgba(0, 0, 0, 0.38)', // Disabled text color
     },
     background: {
-      default: '#121212', // Default background color
+      default: '#212121', // Default background color
       paper: '#fff', // Background color for paper components
     },
   },
@@ -59,6 +59,15 @@ const theme = createTheme({
                   borderRadius: 20, // Set rounded corners
                   textTransform: 'none',
               },
+          },
+      },
+      MuiInputBase: {
+          styleOverrides: {
+            input: {
+              backgroundColor: '#363535', // Set the background color
+              borderRadius: '4px', // Optional: Set rounded corners
+              padding: '8px', // Optional: Add padding for spacing
+            },
           },
       },
   },

@@ -1,4 +1,9 @@
-// style.ts
+// LandingPageStyles.ts
+export const pageStyles: React.CSSProperties = {
+    width: '100%', 
+    height: '100%', 
+    backgroundColor: '#121212' 
+}
 
 export const containerStyles: React.CSSProperties = {
   height: '100vh',
@@ -16,7 +21,3 @@ export const linkContainerStyles: React.CSSProperties = {
   alignItems: 'center',
 };
 
-export const linkStyles: React.CSSProperties = {
-  textDecoration: 'none',
-  marginRight: '20px',
-};

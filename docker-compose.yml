@@ -29,6 +29,13 @@ services:
       - PGDATABASE=postgres
       - PGPASSWORD=postgres_password
       - PGPORT=5432
+      - SPOTIFY_CLIENT_ID=466dbaeaf67b4aaeba42204d994487df
+      - SPOTIFY_CLIENT_SECRET=d4483de4b3c54e5d9e86cde119a7a50a
+      - SPOTIFY_REDIRECT_URI=http://localhost:8888/auth/callback
+      - CLIENT_URI=http://localhost:3000
+      - PORT=8888
+    ports:
+      - "8888:8888"
   client:
     stdin_open: true
     build:
@@ -37,5 +44,5 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
-
-
+    environment:
+      - API_URI=http://localhost:5000

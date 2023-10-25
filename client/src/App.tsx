@@ -1,20 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import LandingPage from './pages/LandingPage';
+import Dashboard from './pages/Dashboard';
+import QuizPage from './pages/QuizPage';
+import Root from './pages/Root';
 
-// Add react-router-dom imports
-import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, Routes } from 'react-router-dom';
 
-// create router with JSX Route elements
-const appRouter = createBrowserRouter(createRoutesFromElements(
-    <Route path="/" element={ <LandingPage /> } />
-));
+// Spotify
+import { useSpotify } from './context/SpotifyContext';
+
 
 function App() {
-  return (
-    <div className="App">
-        <RouterProvider router={appRouter} />
-    </div>
-  );
+    const { accessToken } = useSpotify();
+
+    useEffect(() => {
+        console.log(accessToken)
+    }, []);
+
+    const appRouter = createBrowserRouter(createRoutesFromElements(
+        <Route path="/" element={<Root />} >
+            <Route index element={accessToken ? <Dashboard /> : <LandingPage />} />
+            {/* Make dashboard protected */}
+            {accessToken && <Route path="/quiz/:quizData" element={<QuizPage />} />}
+
+        </Route>
+    ));
+
+    return (
+        <div className="App">
+            <RouterProvider router={appRouter} />
+        </div>
+   );
 }
 
 export default App;
