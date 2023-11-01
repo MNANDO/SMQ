@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import SpotifyPlayer, { SpotifyPlayerType } from '../../features/SpotifyPlayer';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 import { useSpotify } from '../../context/SpotifyContext';
 
@@ -76,7 +77,14 @@ const PlaybackButton = (props : {
 
     return (
         <div>
-            <button onClick={handleClick}>play</button>
+            <PlayCircleIcon 
+                sx={{
+                    fontSize: '50px',  // Make the icon bigger
+                    cursor: 'pointer', // Change cursor on hover to a pointer
+                 }}
+                onClick={handleClick}
+            >
+            play</PlayCircleIcon>
 
         </div>
     );

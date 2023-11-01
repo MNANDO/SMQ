@@ -98,6 +98,4 @@ export class SpotifyController {
             res.status(401).send('Access token not found');
         }
     }
-
-
 }

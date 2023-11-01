@@ -13,7 +13,7 @@ type Track = {
 function getRandomIndices(max: number, count: number) {
   const allIndices = Array.from({ length: max }, (_, index) => index);
 
-  for (let i = allIndices.length - 1; i > 0; i--) {
+  for (let i = allIndices.length - 1; i > 0; i--) { 
     const j = Math.floor(Math.random() * (i + 1));
     [allIndices[i], allIndices[j]] = [allIndices[j], allIndices[i]];
   }
@@ -82,9 +82,9 @@ const QuizPage = () => {
                 console.log(options);
                 console.log(answer);
             }
-
         }
         getTopTracks(data.questionNum + 5);
+
     }, []);
 
     const nextQuestion = () => {
@@ -114,20 +114,22 @@ const QuizPage = () => {
                     };
                 });
                 setTrackData(trackData);
-                if (trackData.length > 0) {
-                    const names = getRandomNames(trackData, trackData[currentQuestion].name);
-                    names.push(trackData[currentQuestion].name);
-                    setAnswer(trackData[currentQuestion].name);
-                    const scrambledIndices = getRandomIndices(names.length, names.length);
-                    const scrambledArray = scrambledIndices.map((index) => names[index])
-                    setOptions(scrambledArray);
-                    console.log(options);
-                    console.log(answer);
-                }
             }
             getTopTracks(data.questionNum + 5);
+
+            if (trackData.length > 0) {
+                const names = getRandomNames(trackData, trackData[currentQuestion].name);
+                names.push(trackData[currentQuestion].name);
+                setAnswer(trackData[currentQuestion].name);
+                const scrambledIndices = getRandomIndices(names.length, names.length);
+                const scrambledArray = scrambledIndices.map((index) => names[index])
+                setOptions(scrambledArray);
+                console.log(options);
+                console.log(answer);
+                }
         } else {
             console.log("End of quiz")
+
         }
     }
 

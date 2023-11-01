@@ -18,6 +18,7 @@ const LandingPage: React.FC  = () => {
 
     useEffect(() => {
         
+
     }, []);
 
     return (
