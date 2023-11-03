@@ -1,9 +1,11 @@
 import React from 'react'
 
-export const settingsForm = (props : {}) => {
+const Countdown = () => {
     return (
         <div>
             
         </div>
     )
 }
+
+export default Countdown;

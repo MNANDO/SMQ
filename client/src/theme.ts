@@ -61,6 +61,27 @@ const theme = createTheme({
               },
           },
       },
+      MuiAutocomplete: {
+          styleOverrides: {
+              option: {
+                  '&.MuiListItem-root': {
+                      color: 'rgba(0, 0, 0, 0.87)', // Set the color of the options text (black)
+                  },
+              },
+              inputRoot: {
+                backgroundColor: '#363535', // Your desired background color for Autocomplete input
+                // Add any other styles you want to override for Autocomplete input
+              },
+          // Add more style overrides for Autocomplete here if needed
+          },
+      },
+      MuiInputLabel: {
+          styleOverrides: {
+              root: {
+                color: 'white'
+              }
+          }
+      },
       MuiInputBase: {
           styleOverrides: {
             input: {

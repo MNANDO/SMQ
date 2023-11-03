@@ -1,77 +1,30 @@
 import React, { useState, useEffect } from 'react'
-import SpotifyPlayer, { SpotifyPlayerType } from '../../features/SpotifyPlayer';
+import SpotifyPlayer from '../../features/SpotifyPlayer';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 import { useSpotify } from '../../context/SpotifyContext';
 
 const PlaybackButton = (props : {
-    trackUri: string | null,
-    position: number | null
+    deviceId: string,
+    trackUri: string,
+    position: number,
+    duration: number // duration in ms
 }) => {
-    const { trackUri, position } = props;
+    const { duration, trackUri, position, deviceId } = props;
     const { accessToken } = useSpotify(); 
     const [isPlaying, setPlaying] = useState(false);
-    const [isActive, setActive] = useState(false);
-    const [deviceId, setDeviceId] = useState<string>('');
-
-    useEffect(() => {
-        console.log(position)
-        const script = document.createElement("script");
-        script.src = "https://sdk.scdn.co/spotify-player.js";
-        script.async = true;
-
-        document.body.appendChild(script);
-
-        window.onSpotifyWebPlaybackSDKReady = () => {
-
-            const player = new window.Spotify.Player({
-                name: 'Web Playback SDK',
-                getOAuthToken: cb => { cb(accessToken as string); },
-                volume: 0.5
-            });
-
-            player.addListener('ready', ({ device_id }) => {
-                setDeviceId(device_id);
-            });
-
-            player.addListener('not_ready', ({ device_id }) => {
-                setDeviceId(device_id);
-            });
-
-            player.addListener('player_state_changed', ( state => {
-                if (!state) {
-                    return;
-                }
-
-                player.getCurrentState().then( state => { 
-                    (!state)? setActive(false) : setActive(true) 
-                }).catch(() => {
-                    console.log('play not active');
-                });
-
-            }));
-
-            player.connect();
-        };
-    }, []);
-
 
     const handleClick = () => {
         console.log(deviceId);
-        if (deviceId.length > 0) {
-            const spotifyPlayer = new SpotifyPlayer(accessToken as string, deviceId); 
-            if (isPlaying == false) {
-                spotifyPlayer.play(trackUri as string, position as number);
-                setPlaying(true);
-                setTimeout(() => {
-                    spotifyPlayer.stop();
-                    setPlaying(false);
-                }, 5000); // Total play time
-            } 
-        } else {
-            console.error('player not ready');
-        }
-        
+        const spotifyPlayer = new SpotifyPlayer(accessToken as string, deviceId); 
+        if (isPlaying == false) {
+            spotifyPlayer.play(trackUri as string, position as number);
+            setPlaying(true);
+            setTimeout(() => {
+                spotifyPlayer.stop();
+                setPlaying(false);
+            }, duration); // Total play time
+        } 
     }
 
 
