@@ -6,13 +6,13 @@ import ProfileNavigation from '../../components/ProfileNavigation';
 import { useSpotify } from '../../context/SpotifyContext';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useSpotifyUserPlaylists } from '../../hooks/useSpotifyUserPlaylists';
+import { Playlist, useSpotifyUserPlaylists } from '../../hooks/useSpotifyUserPlaylists';
 
 interface IFormInputs {
     totalQuestions: number | null;
     timeLimit: number | null; // time limit in seconds 
     type: string;
-    playlist: string; // in the form of playlist ID
+    playlist: string; 
 }
 
 const Dashbaord: React.FC = () => {
@@ -20,7 +20,8 @@ const Dashbaord: React.FC = () => {
     const userPlaylists = useSpotifyUserPlaylists();
     const { accessToken } = useSpotify();
 
-    const [ maxQuestions, setMaxQuestions ] = useState<number>(0);
+    const [ hasSource, setHasSource ] = useState<boolean>(false);
+    const [ totalTracks, setTotalTracks ] = useState<number>(0);
 
     useEffect(() => {
         try {
@@ -28,9 +29,9 @@ const Dashbaord: React.FC = () => {
         } catch(e) {}
     }, [userPlaylists.execute]);
 
-    const { handleSubmit, control, watch } = useForm({
+    const { handleSubmit, control, setValue } = useForm({
         defaultValues: {
-            totalQuestions: 0,
+            totalQuestions: totalTracks,
             timeLimit: 1,
             type: 'artist',
             playlist: '',
@@ -43,14 +44,20 @@ const Dashbaord: React.FC = () => {
         navigate(`/quiz/${JSON.stringify(data)}`);
     }
 
+    useEffect(() => {
+        if (totalTracks > 0 && hasSource) {
+            setValue('totalQuestions', Math.floor(totalTracks/4));
+        }
+    }, [totalTracks, hasSource, setValue]);
+
     return (
         <div>
             <ProfileNavigation />
             <Container sx={{         
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center', // Vertically center the content
-                alignItems: 'center',    // Horizontally center the content
+                justifyContent: 'center', 
+                alignItems: 'center',    
                 height: '100vh', }}>
                 <Typography mb={2} variant="h4"><strong>Are you ready?</strong></Typography>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -77,14 +84,22 @@ const Dashbaord: React.FC = () => {
                                                     getOptionLabel={(option) => {
                                                         return option.name;
                                                     }}
+                                                    getOptionDisabled={(option) => {
+                                                        return option.totalTracks < 4;
+                                                    }}
                                                     onChange={(_: any, newValue) => {
-                                                        setMaxQuestions(newValue?.totalTracks || 0);
-                                                        onChange(newValue ? newValue.id : null);
+                                                        if (newValue?.totalTracks && newValue?.totalTracks >= 4) { // must have at least 4 tracks 
+                                                            setTotalTracks(newValue.totalTracks);
+                                                            setHasSource(true);
+                                                        } else {
+                                                            setHasSource(false);
+                                                        }
+                                                        onChange(newValue?.id);
                                                     }}
                                                     options={userPlaylists.data ?? []}
                                                     renderOption={(props, option) => (
                                                       <li {...props} key={option.id}  style={{ color: 'black' }}>
-                                                        {option.name}
+                                                        {option.name} {option.totalTracks < 4 ? '(Not enough tracks)' : (`(${option.totalTracks} tracks)`)}
                                                       </li>
                                                     )}
                                                     renderInput={(params) => (
@@ -113,8 +128,8 @@ const Dashbaord: React.FC = () => {
                                     rules={{
                                         required: 'Required',
                                         validate: {
-                                            greaterThanZero: () => maxQuestions > 0 || 'Input must be greater than 0',
-                                            lessThanMax: () => maxQuestions <= maxQuestions || `Input must be less or equal to ${maxQuestions}`
+                                            greaterThanZero: () => totalTracks > 0 || 'Input must be greater than 0',
+                                            lessThanMax: () => totalTracks <= totalTracks || `Input must be less or equal to ${totalTracks}`
                                         }
                                     }}
                                     render={({ field, fieldState: {error} }) => (
@@ -123,9 +138,10 @@ const Dashbaord: React.FC = () => {
                                                 type='number' 
                                                 variant='outlined'
                                                 error={!!error}
+                                                disabled={!hasSource}
                                                 inputProps={{
                                                     min: 1,
-                                                    max: maxQuestions,
+                                                    max: totalTracks,
                                                 }}
                                                 {...field} 
                                             />
@@ -150,6 +166,7 @@ const Dashbaord: React.FC = () => {
                                                 type='number'
                                                 variant='outlined'
                                                 error={!!error}
+                                                disabled={!hasSource}
                                                 inputProps={{
                                                     min: 1,
                                                     max: 10
@@ -176,6 +193,7 @@ const Dashbaord: React.FC = () => {
                                             <Select 
                                                 {...field}
                                                 error={!!error}
+                                                disabled={!hasSource}
                                                 inputProps={{
                                                     name: 'type',
                                                     id: 'type-select',

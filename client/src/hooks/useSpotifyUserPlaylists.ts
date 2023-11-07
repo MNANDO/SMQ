@@ -7,8 +7,7 @@ export interface Playlist {
     totalTracks: number;
 }
 
-
-export const getUserPlaylistsData = async (accessToken: string): Promise<Playlist[] | null> => {
+const getUserPlaylistsData = async (accessToken: string): Promise<Playlist[] | null> => {
     try {
         const response = await fetch('https://api.spotify.com/v1/me/playlists', {
             headers: {
