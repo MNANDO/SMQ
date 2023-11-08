@@ -7,8 +7,8 @@ import { useSpotify } from '../../context/SpotifyContext';
 const PlaybackButton = (props : {
     deviceId: string,
     trackUri: string,
-    position: number,
-    duration: number // duration in ms
+    position?: number,
+    duration?: number // duration in ms
 }) => {
     const { duration, trackUri, position, deviceId } = props;
     const { accessToken } = useSpotify(); 

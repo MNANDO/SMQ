@@ -1,11 +1,5 @@
 version: '3'
 services:
-  postgres:
-    image: "postgres:latest"
-    environment:
-      - POSTGRES_PASSWORD=postgres_password
-    ports:
-      - "5432:5432"
   nginx:
     depends_on:
       - api
@@ -24,11 +18,6 @@ services:
       - /app/node_modules
       - ./api:/app
     environment:
-      - PGUSER=postgres
-      - PGHOST=postgres
-      - PGDATABASE=postgres
-      - PGPASSWORD=postgres_password
-      - PGPORT=5432
       - SPOTIFY_CLIENT_ID=466dbaeaf67b4aaeba42204d994487df
       - SPOTIFY_CLIENT_SECRET=d4483de4b3c54e5d9e86cde119a7a50a
       - SPOTIFY_REDIRECT_URI=http://localhost:8888/auth/callback

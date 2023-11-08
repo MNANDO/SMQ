@@ -22,7 +22,6 @@ function App() {
             <Route index element={accessToken ? <Dashboard /> : <LandingPage />} />
             {/* Make dashboard protected */}
             {accessToken && <Route path="/quiz/:quizData" element={<QuizPage />} />}
-
         </Route>
     ));
 
