@@ -27,6 +27,19 @@ const PlaybackButton = (props : {
         } 
     }
 
+    useEffect(() => {
+        const spotifyPlayer = new SpotifyPlayer(accessToken as string, deviceId); 
+        spotifyPlayer.stop();
+        setPlaying(false)
+        if (isPlaying == false) {
+            spotifyPlayer.play(trackUri as string, position as number);
+            setPlaying(true);
+            setTimeout(() => {
+                spotifyPlayer.stop();
+                setPlaying(false);
+            }, duration); // Total play time
+        } 
+    }, [trackUri]);
 
     return (
         <div>
