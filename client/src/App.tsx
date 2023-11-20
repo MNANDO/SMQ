@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import QuizPage from './pages/QuizPage';
+import ProfilePage from "./pages/ProfilePage";
 import Root from './pages/Root';
 
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, Routes } from 'react-router-dom';
@@ -22,6 +23,7 @@ function App() {
             <Route index element={accessToken ? <Dashboard /> : <LandingPage />} />
             {/* Make dashboard protected */}
             {accessToken && <Route path="/quiz/:quizData" element={<QuizPage />} />}
+            {accessToken && <Route path="/profilepage" element={<ProfilePage />} />}
         </Route>
     ));
 

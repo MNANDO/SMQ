@@ -59,7 +59,7 @@ const ProfileNavigation = (props : {}) => {
                 <div className="sub-menu">
                     <ul>
                         <li>
-                            <Link to="#">Profile</Link>
+                            <Link to="/profilepage">Profile</Link>
                         </li>
                         <li>
                             <Link to="/">Dashboard</Link>
