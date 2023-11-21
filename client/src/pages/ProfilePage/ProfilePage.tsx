@@ -2,10 +2,12 @@ import React from "react"
 import ProfileNavigation from '../../components/ProfileNavigation';
 import { Grid, Paper, Typography, Box } from '@mui/material';
 import { useSpotify } from '../../context/SpotifyContext';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const ProfilePage = ()=>{
+  const navigate = useNavigate();
   const container1Items = ['Artist 1', 'Artist 2', 'Artist 3', 'Artist 4'];
   const container2Items = ['Song 1', 'Song 2', 'Song 3', 'Song 4'];
 
@@ -15,8 +17,6 @@ const ProfilePage = ()=>{
     padding: '20px', // Adjust padding as needed
     margin: '40px', // Adjust margin as needed
   };
-
-  
 
     return (
         <div>
