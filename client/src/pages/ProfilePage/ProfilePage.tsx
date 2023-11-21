@@ -1,15 +1,41 @@
-import React from "react"
+import React, { useEffect } from "react"
 import ProfileNavigation from '../../components/ProfileNavigation';
 import { Grid, Paper, Typography, Box } from '@mui/material';
 import { useSpotify } from '../../context/SpotifyContext';
 import { useNavigate } from 'react-router-dom';
+import {TopArtists, useSpotifyTopArtists} from '../../hooks/useSpotifyTopArtists'
+import { useSpotifyTopSongs } from "../../hooks/useSpotifyTopSongs";
 
 
-
-const ProfilePage = ()=>{
+const ProfilePage: React.FC = ()=>{
   const navigate = useNavigate();
-  const container1Items = ['Artist 1', 'Artist 2', 'Artist 3', 'Artist 4'];
-  const container2Items = ['Song 1', 'Song 2', 'Song 3', 'Song 4'];
+  const topArtists = useSpotifyTopArtists();
+  const topSongs = useSpotifyTopSongs();
+  const { accessToken } = useSpotify();
+
+  useEffect(() =>{
+    try{
+        topArtists.execute(accessToken as string);
+    } catch(e) {}
+  }, [topArtists.execute]);
+
+  const artist1 = topArtists.data?.[0]?.name ?? 'No top artist available';
+  const artist2 = topArtists.data?.[1]?.name ?? 'No top artist available';
+  const artist3 = topArtists.data?.[2]?.name ?? 'No top artist available';
+  const artist4 = topArtists.data?.[3]?.name ?? 'No top artist available';
+  const container1Items = [artist1, artist2, artist3, artist4];
+
+  useEffect(()=>{
+    try{
+      topSongs.execute(accessToken as string);
+    } catch(e) {}
+  }, [topSongs.execute]);
+
+  const song1 = topSongs.data?.[0]?.name ?? 'No top song available';
+  const song2 = topSongs.data?.[1]?.name ?? 'No top song available';
+  const song3 = topSongs.data?.[2]?.name ?? 'No top song available';
+  const song4 = topSongs.data?.[3]?.name ?? 'No top song available';
+  const container2Items = [song1, song2, song3, song4];
 
   const containerStyle: React.CSSProperties = {
     backgroundColor: '#121212', // Dark grey or black color
@@ -37,8 +63,9 @@ const ProfilePage = ()=>{
         {/* First Container */}
         <Grid item xs={6}>
           <Paper style={containerStyle}>
-            <Typography variant="h6" style={{ textAlign: 'center'}}>Top Songs</Typography>
+            <Typography variant="h6" style={{ textAlign: 'center'}}>Top Artists</Typography>
             <ul style={{ listStyleType: 'none', padding: 30}}>
+              
               {container1Items.map((item, index) => (
                  <li key={index} style={{ marginBottom: '8px'}}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -54,7 +81,7 @@ const ProfilePage = ()=>{
         {/* Second Container */}
         <Grid item xs={6}>
           <Paper style={containerStyle}>
-            <Typography variant="h6" style={{ textAlign: 'center'}}>Top Artists</Typography>
+            <Typography variant="h6" style={{ textAlign: 'center'}}>Top Songs</Typography>
             <ul style={{ listStyleType: 'none', padding: 30}}>
             {container2Items.map((item, index) => (
                 <li key={index} style={{ marginBottom: '8px'}}>

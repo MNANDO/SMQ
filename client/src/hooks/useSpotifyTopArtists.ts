@@ -4,7 +4,7 @@ import { useSpotify } from '../context/SpotifyContext';
 //TODO edit data to properly map values from json object to TopArtists
 export interface TopArtists {
     id: string;
-    totalArtists: number;
+    name: string;
 }
 
 const getUserTopArtists = async (accessToken: string): Promise<TopArtists[] | null> => {
@@ -40,7 +40,14 @@ export const useSpotifyTopArtists = () => {
             setIsLoading(true);
             const userTopArtistsData = await getUserTopArtists(accessToken);
             //TODO map Artist data to userTopArtistsData
-
+            if(userTopArtistsData){
+                const mappedData = userTopArtistsData.map((artist: any) => ({
+                    id: artist.id,
+                    name: artist.name,
+                }));
+                setData(mappedData);
+            }
+            return userTopArtistsData;
         }catch(error){
             if (error instanceof Error) { setError(error.message) };
             setIsLoading(false);
