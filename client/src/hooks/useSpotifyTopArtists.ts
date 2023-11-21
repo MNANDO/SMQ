@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { useSpotify } from '../context/SpotifyContext';
 
+interface Image {
+    url: string;
+    width: number;
+    height: number;
+  }
+
 //TODO edit data to properly map values from json object to TopArtists
 export interface TopArtists {
     id: string;
     name: string;
+    images?: Image[];
 }
 
 const getUserTopArtists = async (accessToken: string): Promise<TopArtists[] | null> => {
@@ -44,6 +51,7 @@ export const useSpotifyTopArtists = () => {
                 const mappedData = userTopArtistsData.map((artist: any) => ({
                     id: artist.id,
                     name: artist.name,
+                    images: artist.images
                 }));
                 setData(mappedData);
             }

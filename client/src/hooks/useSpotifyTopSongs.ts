@@ -2,9 +2,16 @@ import React, { useState } from 'react';
 import { useSpotify } from '../context/SpotifyContext';
 
 //TODO edit data to properly map values from json object to TopSongs
+interface Image {
+    url: string;
+    width: number;
+    height: number;
+  }
+
 export interface TopSongs {
     id: string;
     name: string;
+    images?: Image[];
 }
 
 const getUserTopSongs = async (accessToken: string): Promise<TopSongs[] | null> => {
@@ -44,6 +51,7 @@ export const useSpotifyTopSongs = () => {
                 const mappedData = userTopSongsData.map((track: any) => ({
                     id: track.id,
                     name: track.name,
+                    images: track.album.images
                 }));
                 setData(mappedData);
             }
