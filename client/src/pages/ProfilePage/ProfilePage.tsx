@@ -63,15 +63,16 @@ const ProfilePage: React.FC = ()=>{
       display="flex"
       justifyContent="center"
       alignItems="center"
-      height="100vh"
+      minHeight="100vh"
       color="#f2f2f2"
       flexDirection="column"  
+      p={3}
         >
 
         <h1 style={{ marginRight: '75%' }}> Your Profile</h1>
         <Grid container spacing={2}>
         {/* First Container */}
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <Paper style={containerStyle}>
             <Typography variant="h4" style={{ textAlign: 'center'}}>Top Artists</Typography>
             <ul style={{ listStyleType: 'none', padding: 30}}>
@@ -90,7 +91,7 @@ const ProfilePage: React.FC = ()=>{
         </Grid>
   
         {/* Second Container */}
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <Paper style={containerStyle}>
             <Typography variant="h4" style={{ textAlign: 'center'}}>Top Songs</Typography>
             <ul style={{ listStyleType: 'none', padding: 30}}>
