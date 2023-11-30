@@ -1,17 +1,15 @@
 /* Dashbaord.tsx */
-import { Checkbox, MenuItem, Container, Grid, Typography, TextField, Button, Input, InputLabel, FormGroup, Select, Autocomplete } from '@mui/material';
-import { Stack } from '@mui/system';
+import { MenuItem, Container, Grid, Typography, TextField, Button, InputLabel, FormGroup, Select, Autocomplete } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import ProfileNavigation from '../../components/ProfileNavigation';
 import { useSpotify } from '../../context/SpotifyContext';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Playlist, useSpotifyUserPlaylists } from '../../hooks/useSpotifyUserPlaylists';
+import { useSpotifyUserPlaylists } from '../../hooks/useSpotifyUserPlaylists';
 
 interface IFormInputs {
     totalQuestions: number | null;
     timeLimit: number | null; // time limit in seconds 
-    type: string;
     playlist: string; 
 }
 
@@ -33,7 +31,6 @@ const Dashbaord: React.FC = () => {
         defaultValues: {
             totalQuestions: totalTracks,
             timeLimit: 1,
-            type: 'artist',
             playlist: '',
         }
     });
@@ -174,40 +171,6 @@ const Dashbaord: React.FC = () => {
                                                 {...field}
                                             />
                                             {error ? <span style={{color: 'red'}}>{error.message}</span> : null}
-                                        </>
-                                    )}
-                                />
-                            </FormGroup>
-                        </Grid>
-                        <Grid item xs={12} >
-                            <FormGroup>
-                                <InputLabel sx={{ color: 'white', marginBottom: '10px' }}>Answer Type</InputLabel>
-                                <Controller 
-                                    name='type'
-                                    control={control}
-                                    rules={{
-                                        required: 'Required'
-                                    }}
-                                    render={({ field, fieldState: {error} }) => (
-                                        <>
-                                            <Select 
-                                                {...field}
-                                                error={!!error}
-                                                disabled={!hasSource}
-                                                inputProps={{
-                                                    name: 'type',
-                                                    id: 'type-select',
-                                                }}
-                                            >
-                                                <MenuItem style={{ color: 'black' }} value="artist">
-                                                  Artist
-                                                </MenuItem>
-                                                <MenuItem style={{ color: 'black' }} value="title">
-                                                  Song Title
-                                                </MenuItem>
-                                            </Select>
-                                            {error ? <span style={{color: 'red'}}>{error.message}</span> : null}
-
                                         </>
                                     )}
                                 />
