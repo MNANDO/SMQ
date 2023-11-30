@@ -30,7 +30,7 @@ const Dashbaord: React.FC = () => {
     const { handleSubmit, control, setValue } = useForm({
         defaultValues: {
             totalQuestions: totalTracks,
-            timeLimit: 1,
+            timeLimit: 10,
             playlist: '',
         }
     });
@@ -150,7 +150,7 @@ const Dashbaord: React.FC = () => {
                         </Grid>
                         <Grid item xs={6}>
                             <FormGroup>
-                                <InputLabel sx={{ color: 'white', marginBottom: '10px'}}>Time Limit</InputLabel>
+                                <InputLabel sx={{ color: 'white', marginBottom: '10px'}}>Time Per Question (seconds)</InputLabel>
                                 <Controller 
                                     name='timeLimit'
                                     control={control}
@@ -166,7 +166,7 @@ const Dashbaord: React.FC = () => {
                                                 disabled={!hasSource}
                                                 inputProps={{
                                                     min: 1,
-                                                    max: 10
+                                                    max: 60,
                                                 }}
                                                 {...field}
                                             />

@@ -1,18 +1,10 @@
-/* 
-* useMusicQuiz keeps track of the following state:
-* - Track Data (isPlaying, duration, playlists, track)
-* - Question options 
-* - Answers 
-* - 
-*/
 import React, { useState } from 'react';
 
 export type TrackData = {
     trackId: string,
-    artist?: string,
-    trackTitle?: string,
+    trackTitle: string,
     duration: number, 
-} & ({ artist: string } | { trackTitle: string })
+} 
 
 export type Question = {
     answer: string,
@@ -98,10 +90,9 @@ export const useMusicQuiz = () => {
                     const randomIndex = Math.floor(Math.random() * (availableOptions.length + 1)); // Generate a random index
                     // Insert the 'newItem' at the random index within the 'availableOptions' array
                     availableOptions.splice(randomIndex, 0, track);
-                    const options = availableOptions.map((option: TrackData) => option.artist ? option.artist : option.trackTitle);
-
+                    const options = availableOptions.map((option: TrackData) => option.trackTitle);
                     return {
-                        answer: track.artist ?? track.trackTitle as string,
+                        answer: track.trackTitle as string,
                         options: options as string[],
                         trackId: track.trackId,
                         trackDuration: track.duration
@@ -131,9 +122,10 @@ export const useMusicQuiz = () => {
      * @param value 
      * @returns void
      */
-    const nextQuestion = (value: string) => {
+    const nextQuestion = (value?: string) => {
         if (questions && currentQuestion && currentQuestionIndex + 1 < questions.length) {
-            if (value === currentQuestion.answer) {
+            console.log(`input: ${value} answer: ${currentQuestion.answer}`)
+            if (value && value === currentQuestion.answer) {
                 setScore(score + 1);
             }
             setCurrentQuestion(questions[currentQuestionIndex + 1]);
@@ -150,6 +142,6 @@ export const useMusicQuiz = () => {
         finished,
         currentQuestion,
         startQuiz: React.useCallback(startQuiz, []),
-        nextQuestion: React.useCallback(nextQuestion, [currentQuestionIndex, questions, score])
+        nextQuestion: React.useCallback(nextQuestion, [currentQuestion, currentQuestionIndex, questions, score])
     }
 }

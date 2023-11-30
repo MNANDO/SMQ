@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSpotify } from '../context/SpotifyContext';
 
 export interface Playlist {
     id: string;

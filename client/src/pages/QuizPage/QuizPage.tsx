@@ -4,6 +4,7 @@ import { useSpotify } from '../../context/SpotifyContext';
 import PlaybackButton from '../../components/PlaybackButton';
 import { Grid, Button, Typography } from '@mui/material';
 import LoadingScreen from '../../components/LoadingScreen';
+import Timer from '../../components/Timer';
 
 import { useMusicQuiz } from '../../hooks/useMusicQuiz';
 
@@ -11,7 +12,7 @@ const QuizPage = () => {
 	const { accessToken } = useSpotify();
 	const [deviceId, setDeviceId] = useState<string>('');
 
-	const [timeLimit, setTimeLimit] = useState<number>(0); // time limit in ms
+	const [timeLimit, setTimeLimit] = useState<number>(10000); // time limit in ms
 
 	const { isLoading, error, score, finished, currentQuestion, startQuiz, nextQuestion } = useMusicQuiz();
 
@@ -47,7 +48,7 @@ const QuizPage = () => {
 	}, [accessToken]);
 
 	useEffect(() => {
-		// load the quiz questions and initialize the current question
+		// load the quiz questions and initialize the current question and set time limit
 		console.log(deviceId);
 
 		const startMusicQuiz = async () => {
@@ -67,6 +68,7 @@ const QuizPage = () => {
             }
 		};
 		startMusicQuiz();
+        setTimeLimit(data.timeLimit * 1000)
 	}, [startQuiz, deviceId, accessToken]);
 
     useEffect(() => {
@@ -76,9 +78,19 @@ const QuizPage = () => {
         }
     }, [finished])
 
-    const handleClick = (event: any) => {
-        nextQuestion(event.target.value);
-    }
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        const selectedValue = event.currentTarget.value; // Use currentTarget instead of target
+
+        if (selectedValue !== undefined) {
+            nextQuestion(selectedValue);
+        } else {
+            // Handle the case where value is undefined (optional)
+            console.error("Button value is undefined");
+        }
+    };
+
+    // colors of the buttons
+    const colors = ['#E577FF', '#FFE765', '#FF7777', '#71A7FF'];
 
 	return (
 		<>
@@ -93,6 +105,9 @@ const QuizPage = () => {
 							<strong>Score: {score}</strong>
 						</Typography>
 					</div>
+                    <div style={{textAlign: 'center'}}>
+                        <Timer nextQuestion={nextQuestion} timeLimit={timeLimit} currentQuestion={currentQuestion} loading={isLoading} />
+                    </div>
                 
 					<Grid container justifyContent={'center'}>
 						<PlaybackButton
@@ -113,11 +128,20 @@ const QuizPage = () => {
 						justifyContent="center"
 						sx={{ maxWidth: '500px', margin: '0 auto' }}
 					>
-						{currentQuestion.options.map((option, index) => (
+						{currentQuestion.options ?
+                        currentQuestion.options.map((option, index) => (
 							<Grid item key={index} xs={6}>
 								<Button
 									variant="contained"
-									sx={{ height: '200px' }}
+                                    sx={{
+                                    height: '200px',
+                                    backgroundColor: colors[index % colors.length], // Use modulo to cycle through colors
+                                    color: 'black',
+                                    transition: 'background-color 0.3s ease', // Add smooth transition
+                                    '&:hover': {
+                                        backgroundColor: `${colors[index % colors.length]}80`, // Add alpha for a darker effect
+                                    },
+                                    }}
 									value={option}
 									fullWidth
 									onClick={handleClick}
@@ -125,7 +149,9 @@ const QuizPage = () => {
 									<strong>{option}</strong>
 								</Button>
 							</Grid>
-						))}
+						)) : (
+                            <Typography variant="body1">Loading options...</Typography>
+                        )}
 					</Grid>
 				</div>
 			)}
