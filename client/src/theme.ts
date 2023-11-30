@@ -1,5 +1,7 @@
 // theme.js
+import { ThemeContext } from '@emotion/react';
 import { createTheme } from '@mui/material/styles';
+import { palette } from '@mui/system';
 
 const theme = createTheme({
   palette: {
@@ -91,6 +93,13 @@ const theme = createTheme({
             },
           },
       },
+      MuiPaper:{
+        styleOverrides:{
+          root: {
+            backgroundColor: "1DB954"
+          }
+        }
+      }
   },
 });
 
