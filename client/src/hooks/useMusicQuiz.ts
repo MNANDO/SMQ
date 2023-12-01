@@ -68,7 +68,9 @@ export const useMusicQuiz = () => {
     const [ currentQuestionIndex, setCurrentQuestionIndex ] = useState(0);
     const [ score, setScore ] = useState(0);
     const [ finished, setFinished ] = useState(false);
-
+    const [ correct, setCorrect ] = useState<string[]>([]);
+    const [ wrong, setWrong ] = useState<string[]>([]);
+    const [ totalQuestions, setTotalQuestions ] = useState<number>();
     /**
      * Generates the questions and sets the initial state
      * @param playlistId 
@@ -101,6 +103,7 @@ export const useMusicQuiz = () => {
                 const selectedQuestions = selectRandomElements(generatedQuestions, limit);
                 setQuestions(selectedQuestions)
                 if (selectedQuestions.length > 0) {
+                    setTotalQuestions(selectedQuestions.length);
                     setCurrentQuestion(selectedQuestions[0]);
                 }
                 return 0;
@@ -125,8 +128,13 @@ export const useMusicQuiz = () => {
     const nextQuestion = (value?: string) => {
         if (questions && currentQuestion && currentQuestionIndex + 1 < questions.length) {
             console.log(`input: ${value} answer: ${currentQuestion.answer}`)
-            if (value && value === currentQuestion.answer) {
-                setScore(score + 1);
+            if (value) {
+                if (value === currentQuestion.answer) {
+                    setScore(score + 1);
+                    setCorrect((prev) => [...prev, value])
+                } else {
+                    setWrong((prev) => [...prev, value]);
+                }
             }
             setCurrentQuestion(questions[currentQuestionIndex + 1]);
             setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -141,6 +149,9 @@ export const useMusicQuiz = () => {
         score,
         finished,
         currentQuestion,
+        correct,
+        wrong,
+        totalQuestions,
         startQuiz: React.useCallback(startQuiz, []),
         nextQuestion: React.useCallback(nextQuestion, [currentQuestion, currentQuestionIndex, questions, score])
     }

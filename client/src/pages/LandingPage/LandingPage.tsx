@@ -16,11 +16,6 @@ const LandingPage: React.FC  = () => {
         login();
     }
 
-    useEffect(() => {
-        
-
-    }, []);
-
     return (
         <div style={pageStyles}>
             <Container sx={containerStyles}>
