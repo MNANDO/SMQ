@@ -7,6 +7,7 @@ import LoadingScreen from '../../components/LoadingScreen';
 import Timer from '../../components/Timer';
 
 import { useMusicQuiz } from '../../hooks/useMusicQuiz';
+import { useNavigate } from 'react-router-dom';
 
 const QuizPage = () => {
 	const { accessToken } = useSpotify();
@@ -14,10 +15,12 @@ const QuizPage = () => {
 
 	const [timeLimit, setTimeLimit] = useState<number>(10000); // time limit in ms
 
-	const { isLoading, error, score, finished, currentQuestion, startQuiz, nextQuestion } = useMusicQuiz();
+	const { totalQuestions, correct, wrong, isLoading, error, score, finished, currentQuestion, startQuiz, nextQuestion } = useMusicQuiz();
 
 	const { quizData } = useParams();
 	const data = JSON.parse(quizData as string);
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		// Connect to spotify and initialize the device ID
@@ -74,7 +77,17 @@ const QuizPage = () => {
     useEffect(() => {
         if (finished) {
             // redirect to results page
-            console.log('finished')
+			let finalScore = 0;
+			if (totalQuestions && totalQuestions > 0) {
+				console.log(`total questions: ${totalQuestions}`)
+				console.log(`correct: ${correct.length}`)
+				finalScore = Math.floor((correct.length/totalQuestions) * 100);
+			} 
+			const correctString = correct.join(',');
+			const wrongString = wrong.join(',');
+
+			// Navigate to the results page with the final score, correct, and wrong values
+			navigate(`/QuizResults/${finalScore}/${correctString}/${wrongString}`);
         }
     }, [finished])
 
