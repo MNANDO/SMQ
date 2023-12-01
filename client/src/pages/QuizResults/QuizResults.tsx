@@ -1,17 +1,14 @@
 /* QuizResults.tsx */
-import { Button, Container, Typography, Box,Grid,Card,CardContent} from '@mui/material';
+import { Button, Container, Typography, Box,Grid } from '@mui/material';
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import {
   buttonStyles,
   containerStyles,
-//   linkContainerStyles,
-//   linkStyles,
   scoreStyle,
   songTitle,
 } from './QuizResultsStyles'; // Import the styles from TypeScript file
-import { width } from '@mui/system';
 
 export type Params = {
     score: number // percentage value
@@ -52,7 +49,7 @@ const QuizResults: React.FC  = () => {
                     </Grid>              
                 </Grid>
                 
-                <Button variant="contained" size="large"><strong>Finish</strong></Button>
+                <Link to={'/'}><Button variant="contained" size="large"><strong>Finish</strong></Button></Link>
                 <Button style={buttonStyles} variant="contained" size="large"><strong>Share</strong></Button>
             
             
