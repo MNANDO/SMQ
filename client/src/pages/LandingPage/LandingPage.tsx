@@ -1,7 +1,7 @@
 /* LandingPage.tsx */
 import { Button, Container, Typography, Box } from '@mui/material';
 import React, { useEffect } from 'react';
-
+import { Link } from "react-router-dom";
 import {
     pageStyles,
     containerStyles,
@@ -31,7 +31,8 @@ const LandingPage: React.FC  = () => {
                 <Box>
                     <Typography mb={2} variant="h2"><strong>Spotify Music Quiz</strong></Typography>
                     <Typography mb={2} variant="h6">See how well you know your favorite music</Typography>
-                    <Button variant="contained" size="large"><strong>Get Started</strong></Button>
+                    <Link to={"/QuizResults/85/Kanye,queen,jeff/song,song,song,song,song,song,song,song,song,song,song"}><Button variant="contained" size="large"><strong>Get Started</strong></Button></Link>
+                    
                 </Box>
             </Container>
         </div>
