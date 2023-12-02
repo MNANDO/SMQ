@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 
-export type TrackData = {
-    trackId: string,
-    trackTitle: string,
-    duration: number, 
-} 
+import { TrackData, spotifyPlaylistTrackData } from 'util/SpotifyData';
 
 export type Question = {
     answer: string,
@@ -14,47 +10,11 @@ export type Question = {
 }
 
 /**
- * Generates tracks from a user playlist 
- * @param playlistId 
- * @param quizType 
- * @param accessToken 
- * @returns Promise<TrackData[] | null
+ * Function to select n random elements without repetition
+ * @param options 
+ * @param n 
+ * @returns 
  */
-const getTracksFromPlaylist = async (playlistId: string, accessToken: string): Promise<TrackData[] | null> => {
-    try {
-        const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
-        const response = await fetch(url, {
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`Failed to fetch tracks: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-
-        const tracks: TrackData[] = data.items.map((item: any) => {
-            const track = item.track;
-            return {
-                trackId: track.uri,
-                trackTitle: track.name,
-                duration: track.duration_ms
-            };
-        });
-        return tracks;
-    } catch (e) {
-        if (e instanceof Error) {
-            console.error(e.message)
-            return null;
-        }
-    }
-    return null;
-}
-
-// Function to select n random elements without repetition
 const selectRandomElements = (options: any, n: number) => {
   const shuffledOptions = options.sort(() => Math.random() - 0.5); // Simple shuffle
   return shuffledOptions.slice(0, n); // Select the first 3 shuffled elements
@@ -84,7 +44,7 @@ export const useMusicQuiz = () => {
             setIsLoading(true);
             setError(null);
 
-            const tracksFromPlaylist = await getTracksFromPlaylist(playlistId, accessToken);
+            const tracksFromPlaylist = await spotifyPlaylistTrackData(playlistId, accessToken);
 
             if (tracksFromPlaylist) {
                 const generatedQuestions = tracksFromPlaylist.map((track) => {
@@ -126,11 +86,15 @@ export const useMusicQuiz = () => {
      * @returns void
      */
     const nextQuestion = (value?: string) => {
-        if (questions && currentQuestion && currentQuestionIndex + 1 < questions.length) {
+        console.log('next')
+        if (questions && !(currentQuestionIndex + 1 < questions.length)) {
+            setFinished(true);
+        } else if (questions && currentQuestion) {
             console.log(`input: ${value} answer: ${currentQuestion.answer}`)
             if (value) {
                 if (value === currentQuestion.answer) {
                     setScore(score + 1);
+                    console.log('correct')
                     setCorrect((prev) => [...prev, value])
                 } else {
                     setWrong((prev) => [...prev, value]);
@@ -138,9 +102,7 @@ export const useMusicQuiz = () => {
             }
             setCurrentQuestion(questions[currentQuestionIndex + 1]);
             setCurrentQuestionIndex(currentQuestionIndex + 1);
-        } else {
-            setFinished(true);
-        }
+        } 
     }
 
     return {

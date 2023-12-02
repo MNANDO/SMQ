@@ -3,7 +3,7 @@ import ProfileNavigation from '../../components/ProfileNavigation';
 import { Grid, Paper, Typography, Box } from '@mui/material';
 import { useSpotify } from '../../context/SpotifyContext';
 import { useNavigate } from 'react-router-dom';
-import {TopArtists, useSpotifyTopArtists} from '../../hooks/useSpotifyTopArtists'
+import { useSpotifyTopArtists} from '../../hooks/useSpotifyTopArtists'
 import { useSpotifyTopSongs } from "../../hooks/useSpotifyTopSongs";
 
 

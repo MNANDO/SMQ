@@ -19,8 +19,8 @@ export type Params = {
 const QuizResults: React.FC  = () => {  
     const match = useParams();
     const {quizScore,right,wrong} = match;
-    const rightList=right!.split(",");
-    const wrongList=wrong!.split(",");
+    const rightList = right ? right!.split(",") : [];
+    const wrongList= wrong ? wrong!.split(",") : [];
 
     return (
         <Container sx={containerStyles}>

@@ -11,7 +11,6 @@ import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, R
 // Spotify
 import { useSpotify } from './context/SpotifyContext';
 
-
 function App() {
     const { accessToken } = useSpotify();
 
@@ -24,7 +23,7 @@ function App() {
             <Route index element={accessToken ? <Dashboard /> : <LandingPage />} />
             {/* Make dashboard protected */}
             {accessToken && <Route path="/quiz/:quizData" element={<QuizPage />} />}
-            {<Route path="/QuizResults/:quizScore/:right/:wrong" element={<QuizResults />} />}
+            {<Route path="/QuizResults/:quizScore/:right?/:wrong?" element={<QuizResults />} />}
             {accessToken && <Route path="/profilepage" element={<ProfilePage />} />}
         </Route>
     ));

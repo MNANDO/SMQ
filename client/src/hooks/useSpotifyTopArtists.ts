@@ -1,41 +1,5 @@
 import React, { useState } from 'react';
-import { useSpotify } from '../context/SpotifyContext';
-
-interface Image {
-    url: string;
-    width: number;
-    height: number;
-  }
-
-//TODO edit data to properly map values from json object to TopArtists
-export interface TopArtists {
-    id: string;
-    name: string;
-    images?: Image[];
-}
-
-const getUserTopArtists = async (accessToken: string): Promise<TopArtists[] | null> => {
-    try{
-        const response = await fetch('https://api.spotify.com/v1/me/top/artists', {
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
-        });
-        if (response.ok) {
-            const data = await response.json();
-            if (data.items) {
-                return data.items;
-            } else {
-                throw new Error('Top Artists data not found');
-            }
-        } else {
-            throw new Error('Failed to fetch Top Artists');
-        }
-    } catch(error) {
-        console.error('failed to retrieve data');
-        return null;
-    }
-}
+import { TopArtists, spotifyUserTopArtistData } from 'util/SpotifyData';
 
 export const useSpotifyTopArtists = () => {
     const [ isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,7 +9,7 @@ export const useSpotifyTopArtists = () => {
     const execute = async (accessToken: string) => {
         try{
             setIsLoading(true);
-            const userTopArtistsData = await getUserTopArtists(accessToken);
+            const userTopArtistsData = await spotifyUserTopArtistData(accessToken);
             //TODO map Artist data to userTopArtistsData
             if(userTopArtistsData){
                 const mappedData = userTopArtistsData.map((artist: any) => ({
