@@ -87,21 +87,24 @@ export const useMusicQuiz = () => {
      */
     const nextQuestion = (value?: string) => {
         console.log('next')
-        if (questions && !(currentQuestionIndex + 1 < questions.length)) {
-            setFinished(true);
-        } else if (questions && currentQuestion) {
+        if (questions && currentQuestion) {
             console.log(`input: ${value} answer: ${currentQuestion.answer}`)
             if (value) {
                 if (value === currentQuestion.answer) {
                     setScore(score + 1);
                     console.log('correct')
-                    setCorrect((prev) => [...prev, value])
+                    setCorrect((prev) => [...prev, currentQuestion.answer])
                 } else {
-                    setWrong((prev) => [...prev, value]);
+                    setWrong((prev) => [...prev, currentQuestion.answer]);
                 }
+            } else {
+                setWrong((prev) => [...prev, currentQuestion.answer]);
             }
             setCurrentQuestion(questions[currentQuestionIndex + 1]);
             setCurrentQuestionIndex(currentQuestionIndex + 1);
+        } 
+        if (questions && !(currentQuestionIndex + 1 < questions.length)) {
+            setFinished(true);
         } 
     }
 

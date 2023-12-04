@@ -10,17 +10,10 @@ import {
   songTitle,
 } from './QuizResultsStyles'; // Import the styles from TypeScript file
 
-export type Params = {
-    score: number // percentage value
-    right: string // string that represents csv
-    wrong: string // string that represents csv
-  }
-
 const QuizResults: React.FC  = () => {  
-    const match = useParams();
-    const {quizScore,right,wrong} = match;
-    const rightList = right ? right!.split(",") : [];
-    const wrongList= wrong ? wrong!.split(",") : [];
+	const { resultData } = useParams();
+    console.log(resultData)
+	const { quizScore, user, correct, wrong } = JSON.parse(resultData as string);
 
     return (
         <Container sx={containerStyles}>
@@ -33,7 +26,7 @@ const QuizResults: React.FC  = () => {
                         <Typography mb={5} variant='h4'><strong>Wrong</strong></Typography>
                         <div style={{ whiteSpace: "nowrap"}}>
                         <Box mb={5} component={"div"} sx={{overflow: "auto", height:"25vh", flexDirection:"column",display:"flex"}}>
-                        {wrongList.map((WRONG)=>(
+                        {wrong.map((WRONG: string)=>(
                             <Typography mb={1} style={songTitle}>{WRONG}</Typography>
                         ))}
                         </Box>
@@ -42,7 +35,7 @@ const QuizResults: React.FC  = () => {
                     <Grid item xs={4}>
                         <Typography mb={5} variant='h4'><strong>Right</strong></Typography>
                         <Box mb={5} component={"div"} sx={{overflow:"auto", height:"25vh", flexDirection:"column",display:"flex"}}>
-                        {rightList.map((RIGHT)=>(
+                        {correct.map((RIGHT: string)=>(
                             <Typography mb={1} style={songTitle}>{RIGHT}</Typography>
                         ))}
                         </Box>

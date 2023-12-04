@@ -8,7 +8,6 @@ import { useSpotify } from '../../context/SpotifyContext';
 
 import './ProfileNavigationStyles.css';
 
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
 
 const ProfileNavigation = (props : {}) => {

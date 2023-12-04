@@ -14,16 +14,12 @@ import { useSpotify } from './context/SpotifyContext';
 function App() {
     const { accessToken } = useSpotify();
 
-    useEffect(() => {
-        console.log(accessToken)
-    }, []);
-
     const appRouter = createBrowserRouter(createRoutesFromElements(
         <Route path="/" element={<Root />} >
             <Route index element={accessToken ? <Dashboard /> : <LandingPage />} />
             {/* Make dashboard protected */}
             {accessToken && <Route path="/quiz/:quizData" element={<QuizPage />} />}
-            {<Route path="/QuizResults/:quizScore/:right?/:wrong?" element={<QuizResults />} />}
+            <Route path="/QuizResults/:resultData" element={<QuizResults />} />
             {accessToken && <Route path="/profilepage" element={<ProfilePage />} />}
         </Route>
     ));

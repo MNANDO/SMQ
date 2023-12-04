@@ -10,7 +10,7 @@ import { useMusicQuiz } from '../../hooks/useMusicQuiz';
 import { useNavigate } from 'react-router-dom';
 
 const QuizPage = () => {
-	const { accessToken } = useSpotify();
+	const { accessToken, user } = useSpotify();
 	const [deviceId, setDeviceId] = useState<string>('');
 
 	const [timeLimit, setTimeLimit] = useState<number>(10000); // time limit in ms
@@ -70,26 +70,31 @@ const QuizPage = () => {
                 }
             }
 		};
-		startMusicQuiz();
-        setTimeLimit(data.timeLimit * 1000)
+		if (deviceId) {
+			startMusicQuiz();
+			setTimeLimit(data.timeLimit * 1000)
+		}
+
 	}, [startQuiz, deviceId, accessToken]);
 
-    useEffect(() => {
-        if (finished) {
-            // redirect to results page
+	useEffect(() => {
+		if (finished) {
+			// redirect to results page
 			let finalScore = 0;
 			if (totalQuestions && totalQuestions > 0) {
-				console.log(`total questions: ${totalQuestions}`)
-				console.log(`correct: ${correct.length}`)
-				finalScore = Math.floor((correct.length/totalQuestions) * 100);
-			} 
-			const correctString = correct.join(',');
-			const wrongString = wrong.join(',');
-
+				finalScore = Math.floor((correct.length / totalQuestions) * 100);
+			}
+			const resultData = {
+				user: user?.displayName || '',
+				quizScore: finalScore,
+				correct: correct,
+				wrong: wrong,
+			}
+			
 			// Navigate to the results page with the final score, correct, and wrong values
-			navigate(`/QuizResults/${finalScore}/${correctString}/${wrongString}`);
-        }
-    }, [finished])
+			navigate(`/QuizResults/${JSON.stringify(resultData)}`);
+		}
+	}, [finished, totalQuestions, correct, wrong, navigate, user?.displayName]);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         const selectedValue = event.currentTarget.value; // Use currentTarget instead of target
@@ -102,7 +107,6 @@ const QuizPage = () => {
         }
     };
 
-    // colors of the buttons
     const colors = ['#E577FF', '#FFE765', '#FF7777', '#71A7FF'];
 
 	return (
