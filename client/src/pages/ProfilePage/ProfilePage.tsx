@@ -5,6 +5,7 @@ import { useSpotify } from '../../context/SpotifyContext';
 import { useNavigate } from 'react-router-dom';
 import {TopArtists, useSpotifyTopArtists} from '../../hooks/useSpotifyTopArtists'
 import { useSpotifyTopSongs } from "../../hooks/useSpotifyTopSongs";
+import { fontSize } from "@mui/system";
 
 
 const ProfilePage: React.FC = ()=>{
@@ -54,6 +55,28 @@ const ProfilePage: React.FC = ()=>{
     margin: '40px', // Adjust margin as needed
   };
 
+
+  const divStyle: React.CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    columnGap: '100px', // Adjust the gap between columns
+    rowGap: '2px', 
+  };
+
+  const itemStyle: React.CSSProperties = {
+    padding: '5px',
+    textAlign: 'center',
+    margin: '5px', // Adjust the margin as needed
+  };
+
+  const itemStyle2: React.CSSProperties = {
+    padding: '5px',
+    textAlign: 'center',
+    margin: '2px',
+    color: '#1DB954',
+    fontSize: '50px',
+  }
+
     return (
         <div>
         <ProfileNavigation/>
@@ -69,7 +92,16 @@ const ProfilePage: React.FC = ()=>{
       p={3}
         >
 
+
         <h1 style={{ marginRight: '75%' }}> Your Profile</h1>
+        <div id='scores' style={divStyle}>
+          <h3 style={itemStyle}>Your Best score</h3>
+          <h3 style={itemStyle}>Most Recent score</h3>
+          <h2 style={itemStyle2}>100%</h2>
+          <h2 style={itemStyle2}>100%</h2>
+          <h5 style={itemStyle}>playlist name</h5>
+          <h5 style={itemStyle}>playlist name</h5>
+        </div>
         <Grid container spacing={2}>
         {/* First Container */}
         <Grid item xs={12} md={6}>
