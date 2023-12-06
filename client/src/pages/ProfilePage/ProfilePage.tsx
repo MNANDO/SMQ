@@ -112,7 +112,7 @@ const ProfilePage: React.FC = ()=>{
               {container1Items.map((item, index) => (
                  <li key={index} style={{ marginBottom: '20px'}}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <img src={container1ImgsItems[index]} style={{ width: '60px', height: '60px', borderRadius: '50%', marginRight: '20px',  marginLeft: '40px'}}></img>  
+                      <img src={container1ImgsItems[index]} style={{ width: '60px', height: '60px', borderRadius: '50%', marginRight: '20px',  marginLeft: '20px'}}></img>  
                       <span>{item}</span>
                     </div>
                  </li>
@@ -130,7 +130,7 @@ const ProfilePage: React.FC = ()=>{
             {container2Items.map((item, index) => (
                 <li key={index} style={{ marginBottom: '20px'}}>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
-                     <img src={container2ImgsItems[index]} style={{ width: '60px', height: '60px', borderRadius: '50%', marginRight: '20px', marginLeft: '40px'}}></img>
+                     <img src={container2ImgsItems[index]} style={{ width: '60px', height: '60px', borderRadius: '50%', marginRight: '20px', marginLeft: '20px'}}></img>
                      <span>{item}</span>
                   </div>
                 </li>
