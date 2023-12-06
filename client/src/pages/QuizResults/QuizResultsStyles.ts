@@ -34,3 +34,10 @@ export const songTitle: React.CSSProperties ={
   fontWeight:"bold"
 }
 
+export const shareButtonStyle: React.CSSProperties = {
+  paddingLeft: "5%",
+  width: "110%",
+  flexDirection: "column",
+  justifyContent: 'center',
+  background: "#2B2B2B"
+}
