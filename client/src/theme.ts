@@ -1,7 +1,5 @@
 // theme.js
-import { ThemeContext } from '@emotion/react';
 import { createTheme } from '@mui/material/styles';
-import { palette } from '@mui/system';
 
 const theme = createTheme({
   palette: {
@@ -80,7 +78,8 @@ const theme = createTheme({
       MuiInputLabel: {
           styleOverrides: {
               root: {
-                color: 'white'
+                color: 'white',
+                margin: 'bottom'
               }
           }
       },
@@ -93,10 +92,11 @@ const theme = createTheme({
             },
           },
       },
-      MuiPaper:{
-        styleOverrides:{
+      MuiSvgIcon: { 
+        // potential break for other elements but works for arrow drop down
+        styleOverrides: {
           root: {
-            backgroundColor: "1DB954"
+            color: 'white',
           }
         }
       }
