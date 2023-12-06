@@ -91,8 +91,9 @@ const QuizPage = () => {
 				wrong: wrong,
 			}
 			
+			const encodedResultData = encodeURIComponent(JSON.stringify(resultData));
 			// Navigate to the results page with the final score, correct, and wrong values
-			navigate(`/QuizResults/${JSON.stringify(resultData)}`);
+			navigate(`/QuizResults/${encodedResultData}`);
 		}
 	}, [finished, totalQuestions, correct, wrong, navigate, user?.displayName]);
 

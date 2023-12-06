@@ -18,7 +18,8 @@ import { borderRadius } from '@mui/system';
 
 const QuizResults: React.FC  = () => {  
 	const { resultData } = useParams();
-	const { quizScore, user, correct, wrong } = JSON.parse(resultData as string);
+    const decodedResultData = decodeURIComponent(resultData as string);
+	const { quizScore, user, correct, wrong } = JSON.parse(decodedResultData as string);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState<PopperPlacementType>();
